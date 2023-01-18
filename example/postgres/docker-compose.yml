@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  bnetrad:
+    image: freeradius-bnet-1.0-pg-alpine:latest
+    restart: unless-stopped
+    volumes:
+      - ./config/sql :/config/sql
+    environment:
+      CON: postgres://postgres:SomeSecretPassword@postgres:5432/postgres
+    command:
+      - -migrate=true
+      - -log=true
+    networks:
+      - postgres
+networks:
+  postgres:
+    external: true
